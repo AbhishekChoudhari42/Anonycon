@@ -1,9 +1,9 @@
 const router = require("express").Router();
 const mongoose = require('mongoose')
 const User = require("../models/User");
+const checkSentiment = require("../functions/sentiment");
 
 // get all users 
-
 
 
 // get messages 
@@ -23,7 +23,7 @@ const User = require("../models/User");
   //  validate message
 
   const validateMessage = (msg) => {
-    return true
+    return checkSentiment(msg) > -2 ? true : false
   }
 
   // send messages
@@ -37,8 +37,6 @@ const User = require("../models/User");
       const sender = req.body.username;  
       const message = req.body.message; 
       
-
-
       if(validateMessage(message)){
         try {
 
@@ -58,12 +56,6 @@ const User = require("../models/User");
       }
   
   });
-
-
-
-
-
-
 
 
 //   router.get("/all", async (req, res) => {
