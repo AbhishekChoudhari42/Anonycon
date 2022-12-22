@@ -1,0 +1,54 @@
+.main{
+    width: 50%;
+    max-width: 360px;
+    height: 100%;
+    background-color: #fff;
+    min-width: 320px;
+    border-radius: .5rem;
+
+    border:1px solid #ccc;
+
+    padding: 0.5rem;
+
+}
+
+.link{
+    width: 100%;
+    font-size: 1rem;
+    color:white;
+    height: 50px;
+    border-radius: .5rem;
+    text-align: center;
+    padding: 12px;
+    background-color: #111;
+    margin-bottom: .5rem;
+}
+.txt-area{
+    border:1px solid #ccc;
+    border-radius: .5rem;
+    height:calc(100% - (50px + .5em));
+    padding: .5rem;
+}
+.txt{
+    border: 2px solid #eee;
+    padding: 0.5em;
+    border:1px solid #ccc;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 200px;
+    border-radius: .5rem;
+    margin-bottom: .5rem;
+
+}
+.send-msg{
+    font-size: 1rem;
+    color:white;
+    height: 50px;
+    border-radius: .5rem;
+    text-align: center;
+    padding: 12px;
+    background-color: #111;
+    margin-top: 1rem;
+
+}

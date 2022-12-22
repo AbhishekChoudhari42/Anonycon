@@ -7,12 +7,12 @@ const checkSentiment = require("../functions/sentiment");
 
 
 // get messages 
-  router.get("getmessage/:user", async (req, res) => {
+  router.get("/getmessage/:user", async (req, res) => {
     
     try {
       const user = await User.find({username : req.params.user});
 
-      res.status(200).json(user.message);
+      res.status(200).json(user[0].message);
 
     } catch (err) {
       res.status(500).json(err);
@@ -42,8 +42,12 @@ const checkSentiment = require("../functions/sentiment");
 
           const userReceiver = await User.find({username : receiver});
           const userSender = await User.find({username : sender});
-                    
-          res.status(200).json("message sent successfully");
+          
+          await userReceiver[0].updateOne({$push : {message:message}})
+            
+          res.status(200).json(userReceiver[0].message);
+
+         
          
         
         } catch (err) {
