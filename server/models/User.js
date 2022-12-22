@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
     unique:true,
   },
 
-  message : {
+  message:{
     type : Array,
     default:[]
   }

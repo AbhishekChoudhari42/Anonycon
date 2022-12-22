@@ -2,18 +2,66 @@ const router = require("express").Router();
 const mongoose = require('mongoose')
 const User = require("../models/User");
 
-// user registration
+// get all users 
 
 
-router.post("/new_user", async (req, res) => {
-    const newUser = new User(req.body);
+
+// get messages 
+  router.get("getmessage/:user", async (req, res) => {
+    
     try {
-      const savedUser = await newUser.save();
-      res.status(200).json(savedUser);
+      const user = await User.find({username : req.params.user});
+
+      res.status(200).json(user.message);
+
     } catch (err) {
       res.status(500).json(err);
     }
-});
+  });
+
+
+  //  validate message
+
+  const validateMessage = (msg) => {
+    return true
+  }
+
+  // send messages
+
+  router.put("/sendmessage/:user", async (req, res) => {
+      //params for receiver
+
+      const receiver = req.params.user;
+
+      // body for sender
+      const sender = req.body.username;  
+      const message = req.body.message; 
+      
+
+
+      if(validateMessage(message)){
+        try {
+
+          const userReceiver = await User.find({username : receiver});
+          const userSender = await User.find({username : sender});
+                    
+          res.status(200).json("message sent successfully");
+         
+        
+        } catch (err) {
+          
+          res.status(500).json({message:"Something went wrong"});
+        
+        }        
+      }else{
+        res.status(500).json({message:"message sending failed please dont use foul language"})
+      }
+  
+  });
+
+
+
+
 
 
 

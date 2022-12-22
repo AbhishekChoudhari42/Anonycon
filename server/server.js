@@ -26,14 +26,19 @@ mongoose.set('strictQuery', true);
 const port = process.env.PORT || 5000
     app.listen(port, () => console.log("💥"))
 
+// middleware
 app.use(express.json());
 app.use(helmet());
 app.use(morgan("dev"));
 
 
+// routes
 
 const userRouter = require("./routes/user")
 app.use("/user",userRouter)
+
+const authRouter = require("./routes/auth")
+app.use("/auth",authRouter)
 
 
 
