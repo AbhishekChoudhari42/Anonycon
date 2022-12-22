@@ -29,6 +29,7 @@ const port = process.env.PORT || 5000
 // middleware
 app.use(express.json());
 app.use(helmet());
+app.use(cors());
 app.use(morgan("dev"));
 
 
