@@ -8,7 +8,7 @@ import '../style/receiver.css'
 const Receiver = () => {
 
   const [messages, setMessages] = useState([])
-  const URL = 'http://localhost:5000/user/getmessage/u3'
+  const URL = 'http://localhost:5000/user/getmessage/u2'
   const getMessage = async() =>{
     await axios.get(URL).then((response)=>{
         setMessages(response.data)

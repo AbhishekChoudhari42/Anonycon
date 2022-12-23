@@ -5,10 +5,10 @@
     font-family: 'Poppins';
 }
 ::-webkit-scrollbar{
-    width: 5px;
+    width: 3px;
 }
 ::-webkit-scrollbar-thumb{
-    width: 3px;
+    width: 2px;
     background-color:#ddd;
 }
 body{
