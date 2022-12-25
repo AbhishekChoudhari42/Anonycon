@@ -2,11 +2,11 @@ const dotenv = require("dotenv")
 dotenv.config();
 const express = require('express')
 const cors = require('cors')
-const cookieSession = require('cookie-session')
+// const cookieSession = require('cookie-session')
 const mongoose = require('mongoose')
 const helmet = require("helmet")
 const morgan = require("morgan")
-const passport = require("passport");
+// const passport = require("passport");
 
 const app = express()
 
@@ -44,13 +44,13 @@ app.use("/auth",authRouter)
 
 // Auth routes & middleware
 
-app.use(cookieSession({
-    name : "AnonySession",
-    keys:["anony98345"],
-    maxAge : 24*60*60*100
-}))
-app.use(passport.initialize());
-app.use(passport.session()); 
+// app.use(cookieSession({
+//     name : "AnonySession",
+//     keys:["anony98345"],
+//     maxAge : 24*60*60*100
+// }))
+// app.use(passport.initialize());
+// app.use(passport.session()); 
 
 
 
