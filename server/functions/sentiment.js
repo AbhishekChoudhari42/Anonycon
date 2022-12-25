@@ -12,7 +12,7 @@ function checkSentiment(words) {
   });
   const newWords = newArr.join(" ");
   const res = sentiment.analyze(newWords);
-  return res.score;
+  return {score : res.score , valid : true};
 }
 
 module.exports = checkSentiment;

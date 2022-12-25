@@ -23,7 +23,7 @@ const checkSentiment = require("../functions/sentiment");
   //  validate message
 
   const validateMessage = (msg) => {
-    return checkSentiment(msg) > -2 ? true : false
+    return checkSentiment(msg)
   }
 
   // send messages
@@ -36,14 +36,15 @@ const checkSentiment = require("../functions/sentiment");
       // body for sender
       const sender = req.body.username;  
       const message = req.body.message; 
+      const msgData = validateMessage(message)
       
-      if(validateMessage(message)){
+      if(msgData.valid){
         try {
 
           const userReceiver = await User.find({username : receiver});
           const userSender = await User.find({username : sender});
           
-          await userReceiver[0].updateOne({$push : {message:message}})
+          await userReceiver[0].updateOne({$push : {message:JSON.stringify({msg_txt:message,score:msgData.score})}})
             
           res.status(200).json(userReceiver[0].message);
 

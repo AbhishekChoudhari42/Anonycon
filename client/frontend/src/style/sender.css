@@ -4,6 +4,7 @@
     height: 100%;
     background-color: #fff;
     min-width: 320px;
+    min-height:fit-content;
     border-radius: .5rem;
 
     border:1px solid #ccc;

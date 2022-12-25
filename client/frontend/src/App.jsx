@@ -1,4 +1,4 @@
-import { useState , useContext } from 'react'
+import { useState , useContext,useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './style/app.css'
 import {
@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Sender from './pages/Sender';
 import Receiver from './pages/Receiver';
+import GoogleAuthPage from './pages/GoogleAuthPage'
 import Nav from './components/Nav';
 const router = createBrowserRouter([
   {
@@ -17,15 +18,22 @@ const router = createBrowserRouter([
     path: "/receiver/:uid",
     element:<Receiver/>
   },
+  {
+    path: "/",
+    element:<GoogleAuthPage/>
+  },
  
   
 ]);
 
 function App() {
+
+  const [login,setLogin] = useState(false)
+
   return (
     <div className="App">
       <Nav/>
-      <RouterProvider router={router} />
+      <RouterProvider login={login} setLogin={setLogin} router={router} />
       
     </div>
   )

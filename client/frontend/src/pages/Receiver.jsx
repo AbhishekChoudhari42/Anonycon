@@ -15,7 +15,7 @@ const Receiver = () => {
     });
   }
 
-  const emoticons = ['🤬','🙂','😀','😃','😊','😙','💀']
+  const emoticons = ['🙁','😐','🙂']
 
   useEffect(() => {
 
@@ -31,10 +31,15 @@ const Receiver = () => {
             <div className='link'>
                 Copy URL
             </div>
-
+            
             <div className='msg-area'>
                 {messages && messages.map(msg => {
-                    return <div className='msg'><p>{msg}</p></div>
+                    let msgData = JSON.parse(msg) 
+                    return <div key = {messages.indexOf(msg) + Math.random()} className='msg'>
+                      <p>{msgData.msg_txt || "no message"}</p>
+                      <p>{emoticons[(msgData.score > 0?2:msgData.score==0?1:0)]  || "0"}</p>
+                      
+                    </div>
                 })}
             </div>
         </div>

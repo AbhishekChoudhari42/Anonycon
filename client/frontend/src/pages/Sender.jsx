@@ -19,6 +19,8 @@ const Sender = () => {
         }).then((response)=>{
             console.log(response.data)
             setResponse(true)
+            setMessage('')
+            
         })
     }else{
         alert("length of the message should not be greater than 240 characters")
@@ -42,7 +44,7 @@ const Sender = () => {
         </div>
 
         <div   className='txt-area'>
-           <textarea style = {len > 240 ? {outline:'2px solid red'} : {outline:'2px solid #eee'}} className='txt' onChange={updateLen}></textarea>
+           <textarea value={message} style = {len > 240 ? {outline:'2px solid red'} : {outline:'2px solid #eee'}} className='txt' onChange={updateLen}></textarea>
            <h6>Characters : {len}</h6>
 
            {(len > 240) && <h6 style={{color : "red"}}>Max limit is 240 characters</h6>}

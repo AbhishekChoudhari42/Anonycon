@@ -20,7 +20,10 @@ const UserSchema = new mongoose.Schema({
     max:80,
     unique:true,
   },
-
+  googleId :{ 
+    type:String,
+    require:true
+ },
   message:{
     type : Array,
     default:[]
