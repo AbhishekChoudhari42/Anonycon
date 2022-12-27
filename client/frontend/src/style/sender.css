@@ -24,12 +24,14 @@
     background-color: #111;
     margin-bottom: .5rem;
 }
+
 .txt-area{
     border:1px solid #ccc;
     border-radius: .5rem;
     height:calc(100% - (50px + .5em));
     padding: .5rem;
 }
+
 .txt{
     border: 2px solid #eee;
     padding: 0.5em;
@@ -42,6 +44,7 @@
     margin-bottom: .5rem;
 
 }
+
 .send-msg{
     font-size: 1rem;
     color:white;
@@ -51,5 +54,12 @@
     padding: 12px;
     background-color: #111;
     margin-top: 1rem;
+    cursor: pointer;
 
+}
+
+.send-msg:active{
+
+    outline: 2px solid #111;
+    
 }

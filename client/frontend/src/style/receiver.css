@@ -11,7 +11,17 @@
     padding: 0.5rem;
 
 }
+.msgInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
+    
+}
 
+.msgInfo h6{
+    font-weight: 500;
+}
 .link{
     width: 100%;
     font-size: 1rem;
@@ -41,5 +51,18 @@
 
 }
 p{
+    padding-bottom: 1em;
     margin-bottom: .5em;
+    border-bottom: 1px solid #eee;
+}
+h6 .red{
+    color:#f00;
+}
+
+.no-msg{
+    color: #f00;
+    border:1px solid #f00a;
+    background-color: #f001;
+    padding: .5rem;
+    border-radius: .5em;
 }

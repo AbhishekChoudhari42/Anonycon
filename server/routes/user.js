@@ -3,7 +3,23 @@ const mongoose = require('mongoose')
 const User = require("../models/User");
 const checkSentiment = require("../functions/sentiment");
 
-// get all users 
+// user email to response
+
+  router.post("/validateuser",async (req, res)=>{
+    let emailReq = req.body.email;
+    const user = await User.find({email:emailReq});
+    if(user[0]){
+      return res.json({status:true})
+    }else{
+      const newUser = new User({
+        username:req.body.username , email:req.body.email
+      });
+      const savedUser = await newUser.save();
+
+    }
+  })
+
+
 
 
 // get messages 
@@ -39,12 +55,21 @@ const checkSentiment = require("../functions/sentiment");
       const msgData = validateMessage(message)
       
       if(msgData.valid){
+        
         try {
 
           const userReceiver = await User.find({username : receiver});
           const userSender = await User.find({username : sender});
+          let time = new Date().getTime();
           
-          await userReceiver[0].updateOne({$push : {message:JSON.stringify({msg_txt:message,score:msgData.score})}})
+          await userReceiver[0].updateOne({
+            $push : {
+              message:JSON.stringify(
+                {
+                  msg_txt:message,
+                  score:msgData.score,
+                  time:time
+        })}})
             
           res.status(200).json(userReceiver[0].message);
 
@@ -62,64 +87,6 @@ const checkSentiment = require("../functions/sentiment");
   
   });
 
-
-//   router.get("/all", async (req, res) => {
-    
-//     try {
-//       const Activities = await Activity.find({});
-//       res.status(200).json(Activities);
-
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   });
-
-//   router.get("/getActivity/:id", async (req, res) => {
-    
-//     try {
-//         const id = req.params.id;
-//       const Activities = await Activity.findById(id);
-//       res.status(200).json(Activities)
-
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   });
-
-// //   findByIdAndUpdate(req.params.id,{$set:req.body})
-// router.put("/update/:id", async (req, res) => {
-//     const newActivity = new Activity(req.body);
-//     try {
-//       const activity = await Activity.findByIdAndUpdate(req.params.id,{$set:req.body});
-//       res.status(200).json(activity);
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   });
-// //   deleteOne
-
-//   router.delete("/delete", async (req, res) => {
-//     const newActivity = new Activity(req.body);
-//     try {
-//       const activity = await Activity.deleteOne({_id : req.body.id});
-//       res.status(200).json(activity);
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   });
-
-// router.put("/attendance/:id", async (req, res) => {
-//     const newStudent = req.body.student;  
-//     try {
-
-//     const activity = await Activity.findById(req.params.id);
-//       await activity.updateOne({$push : { registrations:newStudent}})
-
-//       res.status(200).json(activity);
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   });
 
 
   module.exports = router;

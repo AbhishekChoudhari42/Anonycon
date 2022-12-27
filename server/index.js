@@ -54,7 +54,6 @@ app.use("/auth",authRouter)
 
 
 
-const passportSetup = require('./passport')
 
 
 

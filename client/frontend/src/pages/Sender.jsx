@@ -2,23 +2,26 @@ import React from 'react'
 import '../style/sender.css'
 import axios from 'axios'
 import { useState } from 'react'
-const Sender = () => {
+import { Navigate } from 'react-router-dom'
+const Sender = (props) => {
     
-    const [user,setUser] = useState("u2")
     const [message,setMessage] = useState("")
     
     const [response , setResponse] = useState(false)
-    const URL = "http://localhost:5000/user/sendmessage/"+user
     const sendMessage = async () =>{
+        
+    const URL = "http://localhost:5000/user/sendmessage/"+props.user
+        
         if(len<=240){
 
-        
         await axios.put(URL,{
-            username:"u6",
+            
+            username:props.receiver,
             message:message
+
         }).then((response)=>{
-            console.log(response.data)
             setResponse(true)
+            props.setReceiver(false)
             setMessage('')
             
         })
@@ -26,6 +29,8 @@ const Sender = () => {
         alert("length of the message should not be greater than 240 characters")
     }
     }
+
+
 
     const [len,setLen] = useState(0);
 
@@ -38,9 +43,10 @@ const Sender = () => {
     return (
     <div className="container">
     <div className="main">
-        
+    {!props.receiver && <Navigate to = "/receiver"/>}       
+    {!props.login && <Navigate to = "/"/>}       
         <div className='link'>
-            Send to : Userfd fsd fds
+            Send to : {props.receiver || 'no user found'}
         </div>
 
         <div   className='txt-area'>
