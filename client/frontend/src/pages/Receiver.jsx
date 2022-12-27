@@ -14,9 +14,12 @@ const Receiver = (props) => {
 
   const [messages, setMessages] = useState(null)
   const [error , setError] = useState(false)
-  let userString = `${props.user.given_name}`
-  const URL = `http://localhost:5000/user/getmessage/`+userString.toLowerCase()
+  
+  // let userString = `${props.user.email}`
   const getMessage = async() =>{
+  let userString = `${await props.validateUser({email:props.user.email}).user}`
+  const URL = `${import.meta.env.VITE_APP_API_PATH}/user/getmessage/`+userString.toLowerCase()+'11'
+  
     try{
     await axios.get(URL).then((response)=>{
         setMessages(response.data)

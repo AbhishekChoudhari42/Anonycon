@@ -10,7 +10,7 @@ const Sender = (props) => {
     const [response , setResponse] = useState(false)
     const sendMessage = async () =>{
         
-    const URL = "http://localhost:5000/user/sendmessage/"+props.user
+    const URL = `${import.meta.env.VITE_APP_API_PATH}/user/sendmessage/`+props.user
         
         if(len<=240){
 

@@ -9,12 +9,14 @@ const checkSentiment = require("../functions/sentiment");
     let emailReq = req.body.email;
     const user = await User.find({email:emailReq});
     if(user[0]){
-      return res.json({status:true})
+      return res.json({user:user[0].username})
+
     }else{
       const newUser = new User({
         username:req.body.username , email:req.body.email
       });
       const savedUser = await newUser.save();
+      return res.json({user:username})
 
     }
   })

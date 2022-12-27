@@ -1,5 +1,4 @@
 import { useState , useContext,useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import './style/app.css'
 import {
   createBrowserRouter,
@@ -10,7 +9,7 @@ import Receiver from './pages/Receiver';
 import GoogleAuthPage from './pages/GoogleAuthPage'
 import Nav from './components/Nav';
 import jwt_decode from 'jwt-decode'
-
+import axios  from 'axios';
 
 
 function App() {
@@ -19,11 +18,16 @@ function App() {
   const [user,setUser] = useState(false)
   const [receiver,setReceiver] = useState('')
 
-  const validateToken = (ck)=>{
-    return ck
-  }
+  const validateUser = async (userObj) =>{
+    await axios.post(`${import.meta.env.VITE_APP_API_PATH}/user/validateuser`,userObj).then((response)=>{
+        return response
+    })
+    console.log('sd sds d s')
+}
+
 
   const router = createBrowserRouter([
+
     {
       path: "/sender",
       element:<Sender receiver={receiver} setReceiver={setReceiver} login={login} setLogin={setLogin}/>
@@ -31,11 +35,11 @@ function App() {
     
     {
       path: "/receiver",
-      element:<Receiver user = {user} receiver={receiver} login={login} setLogin={setLogin}/>
+      element:<Receiver validateUser={validateUser} user = {user} receiver={receiver} login={login} setLogin={setLogin}/>
     },
     {
       path: "/",
-      element:<GoogleAuthPage user={user} setUser={setUser} receiver={receiver} login={login} setLogin={setLogin} />
+      element:<GoogleAuthPage validateUser={validateUser} user={user} setUser={setUser} receiver={receiver} login={login} setLogin={setLogin} />
     },
    
     
@@ -43,19 +47,24 @@ function App() {
 
 
   useEffect(()=>{
-    let cookie = document.cookie || false
+    let cookie = document.cookie
+
     if(localStorage.getItem('receiver')){
       setReceiver(localStorage.getItem('receiver'))
     }
 
-    if(validateToken(cookie)){
-      if(cookie){
-      setUser(jwt_decode(cookie)) 
-      setLogin(true)
+      if(decodeURI(document.cookie).includes('authToken')){
+      let cookieDecoded = jwt_decode(cookie)
+      if(validateUser({email:cookieDecoded.email})){
+        setLogin(true)
+      }
+      setUser(cookieDecoded) 
+
+      
     }
-    }
+
   },[])
-  
+
   return (
     <div className="App">
       <Nav user={user} setLogin={setLogin} />

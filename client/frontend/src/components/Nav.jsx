@@ -25,8 +25,8 @@ const imgStyle =
   return (
     <div style = {style} className="navbar" >
         
-        <h1>Anonycon🤩</h1>
-        <img style={imgStyle} src={props.user.picture}/>
+        <h2>Anonycon🤩</h2>
+        {props.user.picture && <img style={imgStyle} src={props.user.picture}/>}
         {console.log(props.user)}
     </div>
   )

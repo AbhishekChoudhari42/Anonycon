@@ -16,11 +16,7 @@ const GoogleAuthPage = (props) => {
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
       }
     // validate or create user
-    const validateUser = async (userObj) =>{
-        await axios.post("http://localhost/5000/user/validateuser",userObj).then((response)=>{
-
-        })
-    }
+    
 
     const handleCallbackResponse = (response) =>{
         
@@ -31,7 +27,7 @@ const GoogleAuthPage = (props) => {
             }
             const date = new Date().getMilliseconds();
 
-            validateUser({username:`${decoded.given_name}_${date}`,email:decoded.email})
+            props.validateUser({username:`${decoded.given_name}_${date}`,email:decoded.email})
             
             props.setUser(decoded)
             props.setLogin(true)
