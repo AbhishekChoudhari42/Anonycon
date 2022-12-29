@@ -12,6 +12,23 @@
     padding: 0.5rem;
 
 }
+.myURL{
+    font-weight:400;
+    
+}
+.link{
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    transition: .5s;
+    /* border: 2px solid transparent; */
+    outline: none;
+    cursor: pointer;
+}
+.link:hover{
+
+    border: 2px dashed rgb(255, 255, 255);
+}
 .refresh{
     background-color:black;
     padding: .2rem .4rem;

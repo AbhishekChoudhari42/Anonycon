@@ -21,12 +21,21 @@ const imgStyle =
 
 }
 
+const logout =()=>{
+
+  document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  window.location.pathname = '/'
+}
+
 
   return (
     <div style = {style} className="navbar" >
         
         <h2>Anonycon🤩</h2>
-        {props.profile && <img style={imgStyle} src={props.profile.picture}/>}
+        <div className='profile'>
+          {props.profile && <img style={imgStyle} src={props.profile.picture}/>}
+          {props.profile && <button onClick={logout} className='logout'>logout</button>}
+        </div>
     </div>
   )
 }

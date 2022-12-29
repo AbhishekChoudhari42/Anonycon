@@ -3,7 +3,8 @@ import { useState , useEffect } from 'react'
 import axios from 'axios'
 import '../style/app.css'
 import '../style/receiver.css'
-import { Navigate } from 'react-router-dom'
+import jwt_decode from 'jwt-decode'
+import { Navigate} from 'react-router-dom'
 
 
 
@@ -11,7 +12,8 @@ const Receiver = ({user}) => {
 
   const [messages, setMessages] = useState(null)
   const [error , setError] = useState(false)
-
+  const [myURL,setMyURL] = useState('')
+  const [valid,setValid] = useState(false)
   const getMessage = async() =>{
   if(user){    
     
@@ -38,20 +40,51 @@ const Receiver = ({user}) => {
   const emoticons = ['🙁','😐','🙂']
 
   useEffect(() => {
+    
+    if(document.cookie.includes('authToken')){
+      const decoded = jwt_decode(document.cookie);
+      if(decoded.email_verified){
+          setValid(false)
+      }else{
+          setValid(true)
+      }
+  }else{
+    setValid(true)
+  }
+    
+    
     getMessage()    
+
     
     
 
   }, [])
-  useEffect(()=>{
+  useEffect(()=>
+  {
+
+
     getMessage()
     return
   },[user])
   const refreshMessages = () =>{
+
+
     getMessage()
   }
+// copy my location
 
-  
+const copyURL = () =>{
+
+  if(user){
+
+    let currentURL = window.location.href.toString().replace("receiver","sender/"+user)
+    setMyURL(currentURL);
+    navigator.clipboard.writeText(currentURL);
+    
+  }
+
+}
+
 
 // time ago
 
@@ -87,12 +120,16 @@ const Receiver = ({user}) => {
   
   return (
     <div className="container">
+
+            {valid && <Navigate to ="/"/>}
+
         <div className="main">
             
-            <div className='link'>
-                Copy URL
-            </div>
-            {!document.cookie.includes('authToken')&&<Navigate to ="/"/>}
+            <button className='link'>
+                
+               <h5 onClick={copyURL} className='myURL'>{myURL !== '' ? (myURL.slice(0,15) + "..."+myURL.slice(-15,myURL.length)):'Copy your URL'}</h5>
+            
+            </button>
             {user && <div className='msg-area'>
               <button className="refresh" onClick={refreshMessages}>Refresh</button>
                 {messages && messages.map(msg => {

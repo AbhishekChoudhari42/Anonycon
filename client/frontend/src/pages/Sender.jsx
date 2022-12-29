@@ -1,32 +1,59 @@
 import React from 'react'
 import '../style/sender.css'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
+import jwt_decode from 'jwt-decode';
 import { Navigate , useParams} from 'react-router-dom'
 const Sender = (props) => {
     
     const [message,setMessage] = useState("")
     const {uname} = useParams();
-    console.log(uname)
-    
+    const [valid , setValid] = useState(false)
+
+    useEffect(() =>{
+        if(document.cookie.includes('authToken')){
+            const decoded = jwt_decode(document.cookie);
+            if(decoded.email_verified){
+                setValid(false)
+            }else{
+                setValid(true)
+            }
+        }else{
+            setValid(true)
+        }
+    },[])    
     const [response , setResponse] = useState(false)
     const sendMessage = async () =>{
         
-    const URL = `${import.meta.env.VITE_APP_API_PATH}/user/sendmessage/`+props.user
+    const URL = `${import.meta.env.VITE_APP_API_PATH}/user/sendmessage/`+uname
         
         if(len<=240){
-
+        try{
         await axios.put(URL,{
             
-            username:uname,
+            username:props.user,
             message:message
 
         }).then((response)=>{
+            if(response.data){
+                console.log(response.data)
+            }
             setResponse(true)
             setMessage('')
             
+        }).catch((error)=>{
+            if(error.code == "ERR_BAD_RESPONSE"){
+                alert("please follow the correct URL user does not exist");
+            }
         })
-    }else{
+    }catch(error){
+        console.log(error)
+
+    }
+    }else if(uname == props.user){
+        alert("you cannot message yourself")
+    }
+    else{
         alert("length of the message should not be greater than 240 characters")
     }
     }
@@ -44,7 +71,8 @@ const Sender = (props) => {
     return (
     <div className="container">
     <div className="main">
-    {/* dwdss ds */}
+    {valid && <Navigate to="/"/>}
+
     {!uname && <Navigate to = "/receiver"/>}       
 
         <div className='link'>

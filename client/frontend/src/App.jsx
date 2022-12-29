@@ -10,6 +10,7 @@ import GoogleAuthPage from './pages/GoogleAuthPage'
 import Nav from './components/Nav';
 import jwt_decode from 'jwt-decode'
 import axios  from 'axios';
+import Error from './components/Error';
 // =======================================================================
 
 
@@ -55,16 +56,21 @@ const validateAndSetUser = async (cookie,decodedCookie) =>{
 
     {
       path: "/sender/:uname",
-      element:<Sender user={user}/>
+      element:<Sender user={user}/>,
+      errorElement:<Error/>
     },
     
     {
       path: "/receiver",
-      element:<Receiver user = {user}/>
+      element:<Receiver user = {user}/>,
+      errorElement:<Error/>
+
     },
     {
       path: "/",
-      element: <GoogleAuthPage validateAndSetUser={validateAndSetUser}  validateUser={validateUser} user={user} setUser={setUser} />
+      element: <GoogleAuthPage validateAndSetUser={validateAndSetUser}  validateUser={validateUser} user={user} setUser={setUser} />,
+      errorElement:<Error/>
+
     },
    
     
