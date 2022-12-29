@@ -20,15 +20,19 @@ const Receiver = ({user}) => {
     try{
       const URL = `${import.meta.env.VITE_APP_API_PATH}/user/getmessage/${user}`
 
-    await axios.get(URL).then((response)=>{
-        if(response.data.length > 0){
-        setMessages(response.data.reverse())
-        }else{
-          setError(true)
-        }
-      }
+    // await axios.get(URL).then((response)=>{
+    //     if(response.data.length > 0){
+    //     setMessages(response.data.reverse())
+    //     }else{
+    //       setError(true)
+    //     }
+    //   }
     
-    );
+    // );
+    await fetch(URL).then(response=>{
+      console.log(response)
+    })
+    
   }catch(error){
 
       setError(true)
