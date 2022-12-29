@@ -28,10 +28,20 @@ function App() {
   // contains email and generated username
    
     if(userObj){
-      const Url = `${import.meta.env.VITE_APP_API_PATH}/user/validateuser`
-      await axios.post(Url.trim(),userObj).then((response)=>{
+      const Url = import.meta.env.VITE_APP_API_PATH+"/user/validateuser"
+      await fetch(Url,{
+        method:'POST',
+        body : JSON.stringify(UserObj),
+        headers :{
+          "Content-type": "application/json; charset=UTF-8"
+        }
+      }).then(response=>{
         setUser(response.data.username)
       })
+      // await axios.post(Url,userObj).then((response)=>{
+      //   setUser(response.data.username)
+      // })
+    
     }
   
 }
