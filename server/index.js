@@ -40,15 +40,7 @@ app.use("/user",userRouter)
 const authRouter = require("./routes/auth");
 app.use("/auth",authRouter)
 
-// Auth routes & middleware
 
-// app.use(cookieSession({
-//     name : "AnonySession",
-//     keys:["anony98345"],
-//     maxAge : 24*60*60*100
-// }))
-// app.use(passport.initialize());
-// app.use(passport.session()); 
 
 
 
