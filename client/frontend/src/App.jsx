@@ -29,7 +29,7 @@ function App() {
    
     if(userObj){
       const Url = `${import.meta.env.VITE_APP_API_PATH}/user/validateuser`
-      await axios.post(Url,userObj,{ headers: this.headers }).then((response)=>{
+      await axios.post(Url,userObj).then((response)=>{
         setUser(response.data.username)
       })
     }
