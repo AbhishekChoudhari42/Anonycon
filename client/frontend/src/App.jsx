@@ -13,6 +13,8 @@ import axios  from 'axios';
 import Error from './components/Error';
 // =======================================================================
 
+axios.defaults.baseURL = import.meta.env.VITE_APP_API_PATH
+
 
 function App() {
 
@@ -28,7 +30,7 @@ function App() {
   // contains email and generated username
    
     if(userObj){
-      const Url = `${import.meta.env.VITE_APP_API_PATH}/user/validateuser`
+      const Url = "/user/validateuser"
       await axios.post(Url,userObj).then((response)=>{
         setUser(response.data.username)
       })
