@@ -2,10 +2,12 @@ import React from 'react'
 import '../style/sender.css'
 import axios from 'axios'
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate , useParams} from 'react-router-dom'
 const Sender = (props) => {
     
     const [message,setMessage] = useState("")
+    const {uname} = useParams();
+    console.log(uname)
     
     const [response , setResponse] = useState(false)
     const sendMessage = async () =>{
@@ -16,7 +18,7 @@ const Sender = (props) => {
 
         await axios.put(URL,{
             
-            username:localStorage.getItem('receiver'),
+            username:uname,
             message:message
 
         }).then((response)=>{
@@ -42,10 +44,11 @@ const Sender = (props) => {
     return (
     <div className="container">
     <div className="main">
-    {!localStorage.getItem('receiver') && <Navigate to = "/receiver"/>}       
+    {/* dwdss ds */}
+    {!uname && <Navigate to = "/receiver"/>}       
 
         <div className='link'>
-            Send to : {props.receiver || 'no user found'}
+            Send to : {uname || 'no user found'}
         </div>
 
         <div   className='txt-area'>

@@ -28,8 +28,10 @@ const GoogleAuthPage = (props) => {
             if(!document.cookie.includes('authToken')){
                 setCookie('authToken',response.credential);
                 let cookie = document.cookie
+                if(document.cookie.includes('authToken')){
                 let decodedCookie = jwt_decode(cookie)
                 props.validateAndSetUser(cookie,decodedCookie)
+              }
             }             
         }
         
@@ -77,7 +79,7 @@ const GoogleAuthPage = (props) => {
     return (
     <div style={containerStyle}>
         <div id="signin" ></div>
-        {gsiState && <Navigate to = {props.receiver?"/sender":"/receiver"}/>}
+        {document.cookie.includes('authToken') && <Navigate to = {props.receiver?"/sender":"/receiver"}/>}
     </div>
   )
 }

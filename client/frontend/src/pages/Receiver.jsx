@@ -7,7 +7,7 @@ import { Navigate } from 'react-router-dom'
 
 
 
-const Receiver = ({user,receiver,gsiState}) => {
+const Receiver = ({user}) => {
 
   const [messages, setMessages] = useState(null)
   const [error , setError] = useState(false)
@@ -39,7 +39,6 @@ const Receiver = ({user,receiver,gsiState}) => {
 
   useEffect(() => {
     getMessage()    
-    localStorage.removeItem('receiver')
     
     
 
@@ -93,6 +92,7 @@ const Receiver = ({user,receiver,gsiState}) => {
             <div className='link'>
                 Copy URL
             </div>
+            {!document.cookie.includes('authToken')&&<Navigate to ="/"/>}
             {user && <div className='msg-area'>
               <button className="refresh" onClick={refreshMessages}>Refresh</button>
                 {messages && messages.map(msg => {

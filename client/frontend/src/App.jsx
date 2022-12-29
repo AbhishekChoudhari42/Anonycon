@@ -21,7 +21,6 @@ function App() {
   
   //accesible only if coming through a redirected link 
   
-const [receiver,setReceiver] = useState(localStorage.getItem('receiver') || '')
 // -------------------------------------------------
   const validateUser = async (userObj) =>{
 
@@ -55,17 +54,17 @@ const validateAndSetUser = async (cookie,decodedCookie) =>{
   const router = createBrowserRouter([
 
     {
-      path: "/sender",
-      element:<Sender user={user} receiver={receiver} setReceiver={setReceiver} />
+      path: "/sender/:uname",
+      element:<Sender user={user}/>
     },
     
     {
       path: "/receiver",
-      element:<Receiver user = {user} receiver={receiver} />
+      element:<Receiver user = {user}/>
     },
     {
       path: "/",
-      element: <GoogleAuthPage validateAndSetUser={validateAndSetUser}  validateUser={validateUser} user={user} setUser={setUser} receiver={receiver}  />
+      element: <GoogleAuthPage validateAndSetUser={validateAndSetUser}  validateUser={validateUser} user={user} setUser={setUser} />
     },
    
     
