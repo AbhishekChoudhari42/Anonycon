@@ -2,11 +2,9 @@ const dotenv = require("dotenv")
 dotenv.config();
 const express = require('express')
 const cors = require('cors')
-// const cookieSession = require('cookie-session')
 const mongoose = require('mongoose')
 const helmet = require("helmet")
 const morgan = require("morgan")
-// const passport = require("passport");
 
 const app = express()
 

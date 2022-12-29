@@ -16,12 +16,11 @@ const Sender = (props) => {
 
         await axios.put(URL,{
             
-            username:props.receiver,
+            username:localStorage.getItem('receiver'),
             message:message
 
         }).then((response)=>{
             setResponse(true)
-            props.setReceiver(false)
             setMessage('')
             
         })
@@ -43,8 +42,8 @@ const Sender = (props) => {
     return (
     <div className="container">
     <div className="main">
-    {!props.receiver && <Navigate to = "/receiver"/>}       
-    {!props.login && <Navigate to = "/"/>}       
+    {!localStorage.getItem('receiver') && <Navigate to = "/receiver"/>}       
+
         <div className='link'>
             Send to : {props.receiver || 'no user found'}
         </div>

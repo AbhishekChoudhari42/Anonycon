@@ -4,20 +4,31 @@ const User = require("../models/User");
 const checkSentiment = require("../functions/sentiment");
 
 // user email to response
+router.get("/getuser/:email",async (req, res)=>{
+  let emailReq = req.params.email;
+    const user = await User.find({email:emailReq});
 
-  router.post("/validateuser",async (req, res)=>{
+    if(user[0]){
+      return res.json({username:user[0].username})
+    }
+})
+
+router.post("/validateuser",async (req, res)=>{
+    try{
     let emailReq = req.body.email;
     const user = await User.find({email:emailReq});
     if(user[0]){
-      return res.json({user:user[0].username})
+      return res.json({username:user[0].username})
 
     }else{
       const newUser = new User({
         username:req.body.username , email:req.body.email
       });
       const savedUser = await newUser.save();
-      return res.json({user:username})
+      return res.json({username:req.body.username})
 
+    }}catch(err){
+      res.json({username:'error'})
     }
   })
 
@@ -52,7 +63,7 @@ const checkSentiment = require("../functions/sentiment");
       const receiver = req.params.user;
 
       // body for sender
-      const sender = req.body.username;  
+      // const sender = req.body.username;  
       const message = req.body.message; 
       const msgData = validateMessage(message)
       
@@ -61,7 +72,7 @@ const checkSentiment = require("../functions/sentiment");
         try {
 
           const userReceiver = await User.find({username : receiver});
-          const userSender = await User.find({username : sender});
+          // const userSender = await User.find({username : sender});
           let time = new Date().getTime();
           
           await userReceiver[0].updateOne({

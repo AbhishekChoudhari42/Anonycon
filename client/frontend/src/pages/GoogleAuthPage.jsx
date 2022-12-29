@@ -8,6 +8,8 @@ import axios from 'axios'
 const GoogleAuthPage = (props) => {
 
     const [gsiScriptLoaded, setGsiScriptLoaded] = useState(false)
+    const [gsiState,setGsiState] = useState();
+
 
     function setCookie(cname, cvalue) {
         const d = new Date();
@@ -21,17 +23,14 @@ const GoogleAuthPage = (props) => {
     const handleCallbackResponse = (response) =>{
         
         if(jwt_decode(response.credential).email_verified){
-            const decoded =  jwt_decode(response.credential)
-            if(!document.cookie.authToken){
-                setCookie('authToken',response.credential);
-            }
-            const date = new Date().getMilliseconds();
 
-            props.validateUser({username:`${decoded.given_name}_${date}`,email:decoded.email})
-            
-            props.setUser(decoded)
-            props.setLogin(true)
-             
+            const decoded =  jwt_decode(response.credential)
+            if(!document.cookie.includes('authToken')){
+                setCookie('authToken',response.credential);
+                let cookie = document.cookie
+                let decodedCookie = jwt_decode(cookie)
+                props.validateAndSetUser(cookie,decodedCookie)
+            }             
         }
         
     }
@@ -51,13 +50,19 @@ const GoogleAuthPage = (props) => {
                 btn,{theme:'outline',size:'large'}
             )}
           }
+        if(!document.cookie.includes('authToken')){
 
-        const script = document.createElement("script")
-        script.src = "https://accounts.google.com/gsi/client"
-        script.onload = initializeGsi
-        script.async = true
-        script.id = "google-client-script"
-        document.querySelector("body")?.appendChild(script)
+        
+            const script = document.createElement("script")
+            script.src = "https://accounts.google.com/gsi/client"
+            script.onload = initializeGsi
+            script.async = true
+            script.id = "google-client-script"
+            document.querySelector("body")?.appendChild(script)
+            
+      }else{
+        setGsiState(true)
+      }
     
     },[])
 
@@ -71,8 +76,8 @@ const GoogleAuthPage = (props) => {
 
     return (
     <div style={containerStyle}>
-        {!props.login && <div id="signin" ></div>}
-        {props.login && <Navigate to = {props.receiver?"/sender":"/receiver"}/>}
+        <div id="signin" ></div>
+        {gsiState && <Navigate to = {props.receiver?"/sender":"/receiver"}/>}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import '../style/navbar.css'
-
+import jwt_decode from 'jwt-decode'
 const Nav = (props) => {
 const style = {
     width:'100%',
@@ -26,8 +26,7 @@ const imgStyle =
     <div style = {style} className="navbar" >
         
         <h2>Anonycon🤩</h2>
-        {props.user.picture && <img style={imgStyle} src={props.user.picture}/>}
-        {console.log(props.user)}
+        {props.profile && <img style={imgStyle} src={props.profile.picture}/>}
     </div>
   )
 }

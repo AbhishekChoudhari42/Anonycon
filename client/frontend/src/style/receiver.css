@@ -7,9 +7,31 @@
     border-radius: .5rem;
 
     border:1px solid #ccc;
+    position: relative;
 
     padding: 0.5rem;
 
+}
+.refresh{
+    background-color:black;
+    padding: .2rem .4rem;
+    color: white;
+    font-size: .7rem;
+    border-radius: .3rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 1rem .9rem;
+    transition: .5s;
+    outline:none;
+    cursor: pointer;
+}
+.refresh:hover{
+    /* color: black; */
+    background-color: rgb(0, 76, 255);
+}
+.refresh:active{
+    outline:3px solid black;
 }
 .msgInfo{
     display: flex;
@@ -39,7 +61,6 @@
     height:calc(100% - (50px + .5em));
     padding: .5rem;
     overflow-y: scroll;
-
     box-shadow: inset 0px 0px 10px #ddd;
 }
 .msg{

@@ -10,19 +10,45 @@ import GoogleAuthPage from './pages/GoogleAuthPage'
 import Nav from './components/Nav';
 import jwt_decode from 'jwt-decode'
 import axios  from 'axios';
+// =======================================================================
 
 
 function App() {
 
-  const [login,setLogin] = useState(false)
-  const [user,setUser] = useState(false)
-  const [receiver,setReceiver] = useState('')
-
+  // username 
+  const [user,setUser] = useState('')
+  const [profile,setProfile] = useState('')
+  
+  //accesible only if coming through a redirected link 
+  
+const [receiver,setReceiver] = useState(localStorage.getItem('receiver') || '')
+// -------------------------------------------------
   const validateUser = async (userObj) =>{
-    await axios.post(`${import.meta.env.VITE_APP_API_PATH}/user/validateuser`,userObj).then((response)=>{
-        return response
-    })
-    console.log('sd sds d s')
+
+  // contains email and generated username
+   
+    if(userObj){
+      const Url = import.meta.env.VITE_APP_API_PATH
+      await axios.post(Url+`/user/validateuser`,userObj).then((response)=>{
+        setUser(response.data.username)
+      })
+    }
+  
+}
+const validateAndSetUser = async (cookie,decodedCookie) =>{
+      
+  if(cookie.includes('authToken')){
+    
+    const date = new Date().getMilliseconds();
+
+    if(decodedCookie.given_name && decodedCookie.email){
+      setProfile(decodedCookie)
+
+      validateUser({email:decodedCookie.email,username:`${decodedCookie.given_name}_${date}`.toLowerCase()})
+      
+    return true;
+  }
+  }
 }
 
 
@@ -30,44 +56,51 @@ function App() {
 
     {
       path: "/sender",
-      element:<Sender receiver={receiver} setReceiver={setReceiver} login={login} setLogin={setLogin}/>
+      element:<Sender user={user} receiver={receiver} setReceiver={setReceiver} />
     },
     
     {
       path: "/receiver",
-      element:<Receiver validateUser={validateUser} user = {user} receiver={receiver} login={login} setLogin={setLogin}/>
+      element:<Receiver user = {user} receiver={receiver} />
     },
     {
       path: "/",
-      element:<GoogleAuthPage validateUser={validateUser} user={user} setUser={setUser} receiver={receiver} login={login} setLogin={setLogin} />
+      element: <GoogleAuthPage validateAndSetUser={validateAndSetUser}  validateUser={validateUser} user={user} setUser={setUser} receiver={receiver}  />
     },
    
     
   ]);
 
 
-  useEffect(()=>{
-    let cookie = document.cookie
+let decodedCookie
 
-    if(localStorage.getItem('receiver')){
-      setReceiver(localStorage.getItem('receiver'))
-    }
+// for validating user based on stored cookies
+useEffect(()=>{
 
-      if(decodeURI(document.cookie).includes('authToken')){
-      let cookieDecoded = jwt_decode(cookie)
-      if(validateUser({email:cookieDecoded.email})){
-        setLogin(true)
-      }
-      setUser(cookieDecoded) 
+  if(localStorage.getItem('receiver')){
+    setReceiver(localStorage.getItem('receiver'))
+  }
+  
+  if(document.cookie.includes('authToken')){
 
-      
-    }
+
+        // 2nd ... validation So only email required 
+        let cookie = document.cookie
+            decodedCookie = jwt_decode(cookie)
+            validateAndSetUser(cookie,decodedCookie);
+
+  }   
 
   },[])
 
+
+  // there is a function which does the job what is it ?
+
+  // writing it now
+
   return (
     <div className="App">
-      <Nav user={user} setLogin={setLogin} />
+      <Nav profile={profile} />
       <RouterProvider  router={router} />
     </div>
   )

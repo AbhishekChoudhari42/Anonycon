@@ -5,30 +5,33 @@ import '../style/app.css'
 import '../style/receiver.css'
 import { Navigate } from 'react-router-dom'
 
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
-TimeAgo.addDefaultLocale(en)
 
 
-const Receiver = (props) => {
+const Receiver = ({user,receiver,gsiState}) => {
 
   const [messages, setMessages] = useState(null)
   const [error , setError] = useState(false)
-  
-  // let userString = `${props.user.email}`
-  const getMessage = async() =>{
-  let userString = `${await props.validateUser({email:props.user.email}).user}`
-  const URL = `${import.meta.env.VITE_APP_API_PATH}/user/getmessage/`+userString.toLowerCase()+'11'
-  
-    try{
-    await axios.get(URL).then((response)=>{
-        setMessages(response.data)
 
-    });
+  const getMessage = async() =>{
+  if(user){    
+    
+    try{
+      const URL = `${import.meta.env.VITE_APP_API_PATH}/user/getmessage/${user}`
+
+    await axios.get(URL).then((response)=>{
+        if(response.data.length > 0){
+        setMessages(response.data.reverse())
+        }else{
+          setError(true)
+        }
+      }
+    
+    );
   }catch(error){
 
-    setError(true)
+      setError(true)
 
+    }
   }
   }
 
@@ -37,11 +40,19 @@ const Receiver = (props) => {
   useEffect(() => {
     getMessage()    
     localStorage.removeItem('receiver')
+    
+    
 
   }, [])
+  useEffect(()=>{
+    getMessage()
+    return
+  },[user])
+  const refreshMessages = () =>{
+    getMessage()
+  }
 
   
-  const timeAgo = new TimeAgo('en-US')
 
 // time ago
 
@@ -78,12 +89,12 @@ const Receiver = (props) => {
   return (
     <div className="container">
         <div className="main">
-        {!props.login && <Navigate to = "/"/>}  
             
             <div className='link'>
                 Copy URL
             </div>
-            <div className='msg-area'>
+            {user && <div className='msg-area'>
+              <button className="refresh" onClick={refreshMessages}>Refresh</button>
                 {messages && messages.map(msg => {
                     let msgData = JSON.parse(msg) 
                     return <div key = {messages.indexOf(msg) + Math.random()} className='msg'>
@@ -96,7 +107,7 @@ const Receiver = (props) => {
                     </div>
                 })}
                 {error && <div className='no-msg'>No messages found</div>}
-            </div>
+            </div>}
         </div>
     </div>
   )
