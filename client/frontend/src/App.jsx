@@ -36,7 +36,8 @@ function App() {
           "Content-type": "application/json; charset=UTF-8"
         }
       }).then(response=>{
-        setUser(response.data.username)
+        // setUser(response.data.username)
+        console.log(response)
       })
       // await axios.post(Url,userObj).then((response)=>{
       //   setUser(response.data.username)
