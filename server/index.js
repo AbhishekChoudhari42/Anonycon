@@ -9,7 +9,7 @@ const morgan = require("morgan")
 const app = express()
 
 
-// connection
+
 async function connect(){
     try{
         await mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true})
