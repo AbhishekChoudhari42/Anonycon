@@ -29,16 +29,7 @@ function App() {
    
     if(userObj){
       const Url = `${import.meta.env.VITE_APP_API_PATH}/user/validateuser`
-      // await fetch(Url,{
-      //   method:'POST',
-      //   body : JSON.stringify(userObj),
-      //   headers :{
-      //     "Content-type": "application/json; charset=UTF-8"
-      //   }
-      // }).then(response=>{
-      //   // setUser(response.data.username)
-      //   console.log(response)
-      // })
+
       await axios.post(Url,userObj).then((response)=>{
         setUser(response.data.username)
       })

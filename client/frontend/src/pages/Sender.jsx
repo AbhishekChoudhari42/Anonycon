@@ -26,8 +26,12 @@ const Sender = (props) => {
     const sendMessage = async () =>{
         
     const URL = `${import.meta.env.VITE_APP_API_PATH}/user/sendmessage/`+uname
+    if(uname == props.user){
+
+        alert("you cannot message yourself")
         
-        if(len<=240){
+    }
+    else if(len<=240){
         try{
         await axios.put(URL,{
             
@@ -49,10 +53,7 @@ const Sender = (props) => {
     }catch(error){
         console.log(error)
 
-    }
-    }else if(uname == props.user){
-        alert("you cannot message yourself")
-    }
+    }}
     else{
         alert("length of the message should not be greater than 240 characters")
     }

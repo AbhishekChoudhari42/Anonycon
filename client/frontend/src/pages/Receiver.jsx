@@ -29,12 +29,7 @@ const Receiver = ({user}) => {
       }
     
     );
-    // await fetch(URL,{
-    //   method:'GET',
-    //   mode: 'no-cors'
-    // }).then(response=>{
-    //   console.log(response)
-    // })
+ 
 
   }catch(error){
 
