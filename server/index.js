@@ -9,7 +9,7 @@ const morgan = require("morgan")
 const app = express()
 
 app.use(cors({
-    origin: 'https://anonycon.netlify.app',
+    origin: 'https://anonyconapp.onrender.com',
     methods:["GET","POST","PUT"]
 }));
 
