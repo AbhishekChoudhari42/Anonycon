@@ -9,7 +9,7 @@ const morgan = require("morgan")
 const app = express()
 
 app.use(cors({
-    origin: 'https://anonyconapp.onrender.com/*',
+    origin: ['https://anonyconapp.onrender.com/','https://anonyconapp.onrender.com/receiver','https://anonyconapp.onrender.com/sender'],
     methods:["GET","POST","PUT"]
 }));
 
