@@ -8,6 +8,10 @@ const morgan = require("morgan")
 
 const app = express()
 
+app.use(cors({
+    origin: 'https://anonycon.netlify.app',
+    methods:["GET","POST","PUT"]
+}));
 
 
 async function connect(){
@@ -28,9 +32,7 @@ const port = process.env.PORT || 5000
 // middleware
 app.use(express.json());
 app.use(helmet());
-app.use(cors({
-    origin: 'https://anonycon.netlify.app/'
-}));
+
 app.use(morgan("dev"));
 
 

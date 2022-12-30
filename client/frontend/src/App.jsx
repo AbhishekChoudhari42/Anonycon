@@ -31,7 +31,6 @@ function App() {
       const Url = `${import.meta.env.VITE_APP_API_PATH}/user/validateuser`
       await fetch(Url,{
         method:'POST',
-        mode: 'no-cors',
         body : userObj,
         headers :{
           "Content-type": "application/json; charset=UTF-8"
